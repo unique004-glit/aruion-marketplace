@@ -1,0 +1,6 @@
+import { useMarketplace } from "../context/MarketplaceContext";
+
+export default function OrderManagement() {
+  const { orders, updateOrderStatus } = useMarketplace();
+  return <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6"><p className="text-sm font-semibold uppercase tracking-widest text-orange-600">Order management</p><h1 className="mt-2 text-3xl font-bold">Fulfil customer orders</h1><div className="mt-6 overflow-hidden rounded-xl bg-white shadow-sm"><table className="w-full text-left text-sm"><thead className="bg-slate-50 text-slate-600"><tr><th className="p-4">Order</th><th className="p-4">Date</th><th className="p-4">Total</th><th className="p-4">Fulfilment status</th></tr></thead><tbody>{orders.map((order) => <tr key={order.id} className="border-t"><td className="p-4 font-semibold">{order.id}</td><td className="p-4">{order.date}</td><td className="p-4">${order.total.toFixed(2)}</td><td className="p-4"><select className="rounded-lg border px-3 py-2" value={order.status} onChange={(event) => updateOrderStatus(order.id, event.target.value)}><option>Processing</option><option>Out for delivery</option><option>Delivered</option></select></td></tr>)}</tbody></table></div></div>;
+}

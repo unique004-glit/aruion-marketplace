@@ -1,0 +1,7 @@
+import { useMarketplace } from "../context/MarketplaceContext";
+
+const statusColor = { Processing: "bg-amber-100 text-amber-800", "Out for delivery": "bg-blue-100 text-blue-800", Delivered: "bg-emerald-100 text-emerald-800" };
+export default function Orders() {
+  const { orders, products } = useMarketplace();
+  return <div className="mx-auto max-w-5xl px-4 py-8 sm:px-6"><p className="text-sm font-semibold uppercase tracking-widest text-purple-600">Order tracking</p><h1 className="mt-2 text-3xl font-bold">Your orders</h1><div className="mt-6 space-y-4">{orders.map((order) => <article key={order.id} className="rounded-xl bg-white p-6 shadow-sm"><div className="flex flex-wrap items-center justify-between gap-3"><div><h2 className="font-bold">{order.id}</h2><p className="text-sm text-slate-500">Placed {order.date}</p></div><span className={`rounded-full px-3 py-1 text-sm font-semibold ${statusColor[order.status] || "bg-slate-100 text-slate-700"}`}>{order.status}</span></div><div className="mt-5 border-t pt-4 text-sm text-slate-600">{order.items.map((item) => { const product = products.find((entry) => entry.id === item.productId); return <p key={item.productId}>{product?.name || item.productId} × {item.quantity}</p>; })}</div><div className="mt-4 flex flex-wrap justify-between gap-3 text-sm"><span>Tracking: <strong>{order.trackingNumber}</strong></span><strong>Total: ${order.total.toFixed(2)}</strong></div></article>)}</div></div>;
+}
